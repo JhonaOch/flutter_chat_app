@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_avanzado2_chat_realtime/src/helpers/mostrar_alerta.dart';
+import 'package:flutter_avanzado2_chat_realtime/src/services/auth_service.dart';
 import 'package:flutter_avanzado2_chat_realtime/src/widgets/bottom_widget.dart';
 import 'package:flutter_avanzado2_chat_realtime/src/widgets/custum_input_widgets.dart';
 import 'package:flutter_avanzado2_chat_realtime/src/widgets/labels_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/logo_widget.dart';
 
@@ -56,6 +59,7 @@ class __FormStateState extends State<_FormState> {
   final passwordCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final authService =Provider.of<AuthService>(context,listen:false);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       margin: const EdgeInsets.only(top: 40),
@@ -79,11 +83,29 @@ class __FormStateState extends State<_FormState> {
           
           ),
 
+         // ignore: prefer_const_constructors
          Bottom(
            title: 'Ingrese', 
-           onPressed: (){
+           onPressed:authService.autenticando 
+           ? null 
+           : () async {
 
+             FocusScope.of(context).unfocus();
+              final loginOK=await authService.login(emailCtrl.text.trim(), passwordCtrl.text.trim()); 
+
+              if(loginOK){
+                Navigator.pushReplacementNamed(context, 'usuarios');
+              }else{
+               //
+
+               mostrarAlerta(context, 'Login incorrecto', 'Verifique sus datos e intente nuevamente.');
+              }
+           
            },
+
+           
+          
+           
            )
 
           

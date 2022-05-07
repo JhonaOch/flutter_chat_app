@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_avanzado2_chat_realtime/src/helpers/mostrar_alerta.dart';
+import 'package:flutter_avanzado2_chat_realtime/src/services/auth_service.dart';
 import 'package:flutter_avanzado2_chat_realtime/src/widgets/bottom_widget.dart';
 import 'package:flutter_avanzado2_chat_realtime/src/widgets/labels_widget.dart';
 import 'package:flutter_avanzado2_chat_realtime/src/widgets/logo_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/custum_input_widgets.dart';
 
@@ -57,6 +60,7 @@ class __FormStateState extends State<_FormState> {
   final nameCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context,listen:false);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       margin: const EdgeInsets.only(top: 40),
@@ -91,7 +95,29 @@ class __FormStateState extends State<_FormState> {
 
          Bottom(
            title: 'Registrate', 
-           onPressed: (){
+           onPressed:authService.autenticando
+           ?null
+           : () async {
+              FocusScope.of(context).unfocus();
+              final registroOK= await authService.register(nameCtrl.text.trim(), emailCtrl.text.trim(), passwordCtrl.text.trim());
+
+              print(registroOK);
+
+              if(registroOK == null){
+                mostrarAlerta(context, 'Registro incorrecto', 'Rellenar todos los campos');
+              }else if(registroOK  == true){
+                //   //TODO Conectar socker serve
+                Navigator.pushReplacementNamed(context, 'usuarios');
+
+
+              }else{
+                 mostrarAlerta(context, 'Registro incorrecto', registroOK);
+              }
+
+
+
+            
+
 
            },
            )

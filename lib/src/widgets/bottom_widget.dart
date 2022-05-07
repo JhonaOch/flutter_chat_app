@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Bottom extends StatelessWidget {
   final String title ;
-  final void Function() onPressed;
+  final Function()? onPressed;
   final Color color;
   const Bottom({ Key? key, 
   required this.title, 
@@ -13,7 +13,7 @@ class Bottom extends StatelessWidget {
   Widget build(BuildContext context) {
     return  ElevatedButton(
 
-            onPressed: onPressed,
+            onPressed: onPressed ,
 
 
             // ignore: prefer_const_constructors
