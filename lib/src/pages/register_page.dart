@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_avanzado2_chat_realtime/src/helpers/mostrar_alerta.dart';
 import 'package:flutter_avanzado2_chat_realtime/src/services/auth_service.dart';
+import 'package:flutter_avanzado2_chat_realtime/src/services/socket_service.dart';
 import 'package:flutter_avanzado2_chat_realtime/src/widgets/bottom_widget.dart';
 import 'package:flutter_avanzado2_chat_realtime/src/widgets/labels_widget.dart';
 import 'package:flutter_avanzado2_chat_realtime/src/widgets/logo_widget.dart';
@@ -61,6 +62,7 @@ class __FormStateState extends State<_FormState> {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context,listen:false);
+    final socketService = Provider.of<SocketService>(context,listen:false);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       margin: const EdgeInsets.only(top: 40),
@@ -107,6 +109,7 @@ class __FormStateState extends State<_FormState> {
                 mostrarAlerta(context, 'Registro incorrecto', 'Rellenar todos los campos');
               }else if(registroOK  == true){
                 //   //TODO Conectar socker serve
+                socketService.connect();
                 Navigator.pushReplacementNamed(context, 'usuarios');
 
 

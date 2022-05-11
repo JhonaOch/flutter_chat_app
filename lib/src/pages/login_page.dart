@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_avanzado2_chat_realtime/src/helpers/mostrar_alerta.dart';
 import 'package:flutter_avanzado2_chat_realtime/src/services/auth_service.dart';
+import 'package:flutter_avanzado2_chat_realtime/src/services/socket_service.dart';
 import 'package:flutter_avanzado2_chat_realtime/src/widgets/bottom_widget.dart';
 import 'package:flutter_avanzado2_chat_realtime/src/widgets/custum_input_widgets.dart';
 import 'package:flutter_avanzado2_chat_realtime/src/widgets/labels_widget.dart';
@@ -60,6 +61,7 @@ class __FormStateState extends State<_FormState> {
   @override
   Widget build(BuildContext context) {
     final authService =Provider.of<AuthService>(context,listen:false);
+    final socketService =Provider.of<SocketService>(context,listen:false);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       margin: const EdgeInsets.only(top: 40),
@@ -94,6 +96,8 @@ class __FormStateState extends State<_FormState> {
               final loginOK=await authService.login(emailCtrl.text.trim(), passwordCtrl.text.trim()); 
 
               if(loginOK){
+                //TODO Conectar a nuestro socket server
+                socketService.connect();
                 Navigator.pushReplacementNamed(context, 'usuarios');
               }else{
                //

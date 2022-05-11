@@ -30,9 +30,9 @@ class AuthService with ChangeNotifier{
 
   //getters de forma estaticamente OBTENER Y BORRAR TOKEN DE LA MEMORIA
 
-  static Future<String?> getToken() async{
+  static Future<String> getToken() async{
     final _storage = FlutterSecureStorage();
-    final token = await _storage.read(key: 'token');
+    final token = await _storage.read(key: 'token') as String;
     return token;
 
   }
